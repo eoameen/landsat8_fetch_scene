@@ -1,4 +1,6 @@
-# A tool for fetching Landsat-8 scenes
+# Landsat-8: Fetch scene
+A tool for fetching Landsat-8 (OLI-TIRS) scenes from [`usgs-landsat`](https://registry.opendata.aws/usgs-landsat/) bucket on AWS.
+
 
 ## Build image
 
@@ -36,13 +38,13 @@ optional arguments:
 ```
 
 * Example:
-```sh
+```bash
 docker run --rm -it \
       -v `pwd`:/workspace \
       -v "$HOME/.aws:/home/.aws" \
       landsat8-fetch-scene python3 src/fetch_scene.py \
-      --endpoint s3://landsat-pds/c1/L8/045/033/LC08_L1TP_045033_20200528_20200528_01_RT/ \
-      --output_directory LC08_L1TP_045033_20200528_20200528_01_RT \
+      --endpoint s3://usgs-landsat/collection02/level-1/standard/oli-tirs/2021/046/028/LC08_L1TP_046028_20210725_20210725_02_RT/ \
+      --output_directory output \
       --bands 5 6 7
 ```
 

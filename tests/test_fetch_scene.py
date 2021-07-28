@@ -4,6 +4,8 @@ import pytest
 from src.fetch_scene import _validate_input, fetch_scene
 
 # tests for _validate_input (Using valid input)
+
+
 @pytest.mark.parametrize(
     "test_input",
     [
@@ -57,16 +59,15 @@ def test_validate_input_by_invalid_input(test_input):
     "test_input",
     [
         # case 1
-        {"s3_endpoint": "s3://landsat-pds/c1/L8/045/033/LC08_L1TP_045033_20200528_20200528_01_RT/",
-        "out_dir": "LC08_L1TP_045033_20200528_20200528_01_RT",
-        "bands": [5, 6, 7]},
+        {"s3_endpoint": "s3://usgs-landsat/collection02/level-1/standard/oli-tirs/2021/046/028/LC08_L1TP_046028_20210725_20210725_02_RT/",
+         "bands": [5, 6, 7]},
     ],
 )
-def test_fetch_scene(test_input):
+def test_fetch_scene(test_input, tmpdir):
     paths = fetch_scene(
-    test_input['s3_endpoint'],
-    test_input['out_dir'],
-    test_input['bands']
+        test_input['s3_endpoint'],
+        tmpdir,
+        test_input['bands']
     )
     for path in paths:
         assert os.path.exists(path)

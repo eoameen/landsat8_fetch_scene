@@ -22,7 +22,7 @@ def fetch_scene(
         s3_endpoint: str,
         out_dir: str,
         bands: List[int]
-        ) -> List[str]:
+) -> List[str]:
     """
     Download bands of a landsat-8 scene using awscli.
     In addition to input bands, metadata, thumbnails and
@@ -33,9 +33,10 @@ def fetch_scene(
     cmd = f'aws s3 sync {s3_endpoint} {out_dir} \
         --exclude "*" \
         --include "*_BQA.TIF" --include "*.json" \
-        --include "*.txt" --include "*.jpg"'
+        --include "*.txt" --include "*.jpeg"'
     for band in bands:
         cmd += (f' --include "*_B{band}.TIF"')
+    cmd += " --request-payer requester"
     logger.info("Downloading scene files ..")
     subprocess.run(
         cmd,
@@ -43,7 +44,7 @@ def fetch_scene(
         check=True,
         stdout=open(os.devnull, 'w'),
         stderr=subprocess.STDOUT
-        )
+    )
     # return sorted file list
     files = sorted(glob(f'{out_dir}/*'))
     return files
